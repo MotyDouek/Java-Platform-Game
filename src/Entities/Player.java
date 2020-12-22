@@ -15,6 +15,7 @@ public class Player {
 	
 	// movement booleans
 	private boolean right = false, left = false, jumping = false, falling = false;
+	private boolean topCollision = false;
 	
 	// bounds
 	private double x, y;
@@ -46,34 +47,39 @@ public class Player {
 		for(int i = 0; i < b.length; i++) {
 			
 			// right
-			if(Collision.playerBlcok(new Point(iX + width + (int)GameState.xOffset, iY + (int)GameState.yOffset), b[i]) 
-					|| Collision.playerBlcok(new Point(iX + width + (int)GameState.xOffset, iY + height + (int)GameState.yOffset),b[i])) {
+			if(Collision.playerBlcok(new Point(iX + width + (int)GameState.xOffset, iY + (int)GameState.yOffset + 2), b[i]) 
+					|| Collision.playerBlcok(new Point(iX + width + (int)GameState.xOffset, iY + height + (int)GameState.yOffset - 1),b[i])) {
 				right = false;
 			}
 			
 			// left
-			if(Collision.playerBlcok(new Point(iX + (int)GameState.xOffset, iY + (int)GameState.yOffset), b[i]) 
-					|| Collision.playerBlcok(new Point(iX + (int)GameState.xOffset, iY + height + (int)GameState.yOffset), b[i])) {
+			if(Collision.playerBlcok(new Point(iX + (int)GameState.xOffset - 1, iY + (int)GameState.yOffset + 2), b[i]) 
+					|| Collision.playerBlcok(new Point(iX + (int)GameState.xOffset - 1, iY + height + (int)GameState.yOffset - 1), b[i])) {
 				left = false;
 			}
 			
 			// top
-			if(Collision.playerBlcok(new Point(iX + (int)GameState.xOffset, iY + (int)GameState.yOffset), b[i]) 
-					|| Collision.playerBlcok(new Point(iX + width + (int)GameState.xOffset, iY + (int)GameState.yOffset), b[i])) {
+			if(Collision.playerBlcok(new Point(iX + (int)GameState.xOffset + 1, iY + (int)GameState.yOffset), b[i]) 
+					|| Collision.playerBlcok(new Point(iX + width + (int)GameState.xOffset - 1, iY + (int)GameState.yOffset), b[i])) {
 				jumping = false;
 				falling = true;
 			}
 			
 			// bottom
-			if(Collision.playerBlcok(new Point(iX + (int)GameState.xOffset, iY + height + (int)GameState.yOffset), b[i])
-					|| Collision.playerBlcok(new Point(iX + width + (int)GameState.xOffset, iY + height + (int)GameState.yOffset), b[i])) {
+			if(Collision.playerBlcok(new Point(iX + (int)GameState.xOffset + 2, iY + height + (int)GameState.yOffset + 1), b[i])
+					|| Collision.playerBlcok(new Point(iX + width + (int)GameState.xOffset - 1, iY + height + (int)GameState.yOffset + 1), b[i])) {
+				y = b[i].getY() - height - GameState.yOffset;
 				falling = false;
-				break;
+				topCollision = true;
 			} else {
-				falling = true;
+				if(!topCollision && !jumping) {
+					falling = true;
+				}
 			}
 			
 		}
+		
+		topCollision = false;
 		
 		if(right) {
 			GameState.xOffset += moveSpeed;
@@ -116,7 +122,7 @@ public class Player {
 	public void keyPressed(int k) {
 		if (k == KeyEvent.VK_D) right = true;
 		if (k == KeyEvent.VK_A) left = true;
-		if (k == KeyEvent.VK_SPACE) jumping = true;
+		if (k == KeyEvent.VK_SPACE && !jumping && !falling) jumping = true;
 	}
 	
 	public void keyReleased(int k) {
