@@ -1,5 +1,6 @@
 package objects;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -19,6 +20,7 @@ public class Block extends Rectangle {
 	}
 	
 	public void draw(Graphics g) {
+		g.setColor(Color.BLACK);
 		g.fillRect(x - (int)GameState.xOffset, y - (int)GameState.yOffset, width, height);
 	}
 

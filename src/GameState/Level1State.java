@@ -3,13 +3,13 @@ package GameState;
 import java.awt.Graphics;
 
 import Entities.Player;
+import Mapping.Map;
 import objects.Block;
 
 public class Level1State extends GameState {
 	
 	private Player player;
-	
-	private Block[] b;
+	private Map map;
 
 	public Level1State(GameStateManager gsm) {
 		super(gsm);
@@ -18,32 +18,21 @@ public class Level1State extends GameState {
 	@Override
 	public void init() {
 		player = new Player(30, 30);
+		map = new Map("", 4, 4);
 		
-		b = new Block[3];
-		
-		b[0] = new Block(350, 400);
-		b[1] = new Block(400, 350);
-		b[2] = new Block(450, 300);
-		
+		xOffset = -200;
+		yOffset = -400;
 	}
 
 	@Override
 	public void tick() {
-		
-		for(int i = 0; i < b.length; i++) {
-			b[i].tick();
-		}
-		
-		player.tick(b);
+		player.tick(map.getBlocks());
 	}
 
 	@Override
 	public void draw(Graphics g) {
 		player.draw(g);
-		
-		for(int i = 0; i < b.length; i++) {
-			b[i].draw(g);
-		}
+		map.draw(g);
 	}
 
 	@Override
