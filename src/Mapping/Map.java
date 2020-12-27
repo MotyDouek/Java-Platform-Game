@@ -42,9 +42,9 @@ public class Map {
 			
 			blocks = new Block[height][width];
 			
-			String line = br.readLine();
-			
 			for (int y = 0; y < height; y++) {
+				String line = br.readLine();
+				
 				String[] tokens = line.split("\\s+");
 				
 				for(int x = 0; x < width; x++) {
