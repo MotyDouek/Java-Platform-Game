@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 
 import GameState.GameStateManager;
+import Resources.Images;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private static final long serialVersionUID = 1L;
@@ -28,6 +29,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		
 		addKeyListener(this);
 		setFocusable(true);
+		
+		new Images();
 		
 		start();
 	}
